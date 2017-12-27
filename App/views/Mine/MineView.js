@@ -14,8 +14,10 @@ import MineCell from './MineCell'
 class MineView extends Component {
 
     static navigationOptions = {
+        // header: null,
         headerStyle: {backgroundColor: Color.theme},
         headerRight: (
+
             <View style={{flexDirection: 'row'}}>
                 <NavigationItem
                     iconName = {require('../../images/Mine/icon_navigationItem_message_white.png')}
@@ -31,7 +33,8 @@ class MineView extends Component {
                 />
 
             </View>
-        )
+        ),
+
     };
 
     constructor(props) {
@@ -39,6 +42,9 @@ class MineView extends Component {
         this.state = {
             dataSource: []
         }
+
+        this._onCellSelected = this._onCellSelected.bind(this);
+
     }
 
     componentDidMount() {
@@ -94,7 +100,8 @@ class MineView extends Component {
         )
     };
     _onCellSelected = (item) => {
-        alert('点击了' + item.title)
+        // alert('点击了' + item.title)
+        this.props.navigation.navigate('minePageView');
     };
 
     render() {

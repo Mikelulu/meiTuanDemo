@@ -27,6 +27,10 @@ import OrderView from '../views/Order/OrderView'
 import MineView from '../views/Mine/MineView'
 import GroupPurchaseDetail from '../views/Home/GroupPurchaseDetail'
 import MyWebView from '../components/MyWebView'
+import LoginView from '../views/Login/LoginView'
+import RegisterView from '../views/Login/RegisterView'
+import ForgetPasswordView from '../views/Login/ForgetPasswordView'
+import MinePageView from '../views/Mine/MinePageView'
 
 import TabBarItem from '../components/TabBarItem'
 import Color from '../config/Color'
@@ -110,6 +114,10 @@ const Navigator = StackNavigator(
         TabBar: {screen: TabBar},
         GroupPurchaseDetail: {screen: GroupPurchaseDetail},
         webView: {screen: MyWebView},
+        loginView: {screen: LoginView},
+        registerView: {screen: RegisterView},
+        forgetPasswordView: {screen: ForgetPasswordView},
+        minePageView: {screen: MinePageView},
     },
     {
         navigationOptions: {

@@ -17,7 +17,7 @@ import Color from '../../config/Color'
 import NavigationItem from '../../components/NavigationItem'
 import GroupPurchaseCell from './GroupPurchaseCell'
 import HomeHeaderView from './HomeHeaderView'
-
+import LKLog from '../../components/LKLog'
 
 class HomeView extends PureComponent {
 
@@ -32,6 +32,7 @@ class HomeView extends PureComponent {
                 <TextInput
                     style={styles.searchBar}
                     placeholder='蜀都冒菜'
+                    underlineColorAndroid = 'transparent'
                     onChangeText={(text) => navigation.state.params.textDidChange(text)}
                 />
             </View>
@@ -45,8 +46,8 @@ class HomeView extends PureComponent {
                     Alert.alert(
                         '选择城市',
                         '点击了上海',
-                        [ {text: '确定', onPress: () => console.log('点击了确定按钮')},
-                            {text: '取消', onPress: () => console.log('点击了取消按钮')}
+                        [ {text: '确定', onPress: () => LKLog.log('点击了确定按钮')},
+                            {text: '取消', onPress: () => LKLog.log('点击了取消按钮')}
                         ],
                         {cancelable: true}
                     )
@@ -56,10 +57,7 @@ class HomeView extends PureComponent {
         headerRight: (
             <NavigationItem
                 iconName = {require('../../images/Home/icon_navigationItem_message_white.png')}
-                onPress={() => {
-                    console.log('测试');
-                    alert('点击了铃铛');
-                }}
+                onPress={() => navigation.state.params.onMessageSelected()}
             />
         )
     });
@@ -82,6 +80,8 @@ class HomeView extends PureComponent {
         this._onMenuSelected = this._onMenuSelected.bind(this);
         this._onGridSelcted = this._onGridSelcted.bind(this);
         this._headerView = this._headerView.bind(this);
+
+        this._onMessageSelected = this._onMessageSelected.bind(this);
     }
 
     _keyExtractor = (item, index) => item.id;
@@ -167,6 +167,9 @@ class HomeView extends PureComponent {
         this.setState({
             text: text,
         })
+    };
+    _onMessageSelected() {
+        this.props.navigation.navigate('loginView');
     }
     // 在初始化render之后只执行一次，在这个方法内，可以访问任何组件，
     // componentDidMount()方法中的子组件在父组件之前执行
@@ -179,6 +182,7 @@ class HomeView extends PureComponent {
         // 给导航栏添加一个事件
         this.props.navigation.setParams({
             textDidChange: this._textDidChange,
+            onMessageSelected: this._onMessageSelected,
         })
     }
     // 这个方法在初始化render时不会执行，当props或者state发生变化时执行，
@@ -226,8 +230,8 @@ class HomeView extends PureComponent {
             let responsData = await fetch(Api.discount);
             let responseJson = await responsData.json();
             this.setState({discounts: responseJson.data});
-            console.log(responseJson);
-            console.log(this.state.discounts);
+            LKLog.log(responseJson);
+            LKLog.log(this.state.discounts);
 
             // 获取recommend的数据
             this.requestRecommendData();
@@ -241,7 +245,7 @@ class HomeView extends PureComponent {
         try {
             let responsData = await fetch(Api.recommend);
             let responsJson = await responsData.json();
-            console.log(JSON.stringify(responsJson));
+            LKLog.log(JSON.stringify(responsJson));
             let dataList = responsJson.data.map(
                 (info, i) => {
                     return {
@@ -253,7 +257,7 @@ class HomeView extends PureComponent {
                     }
                 }
             )
-            console.log(dataList);
+            LKLog.log(dataList);
             this.setState({
                 dataList: dataList,
                 refreshing: false
